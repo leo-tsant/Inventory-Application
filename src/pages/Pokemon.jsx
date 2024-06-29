@@ -1,9 +1,11 @@
+import NavBar from "../components/NavBar";
+
 const Pokemon = () => {
     return (
         <div>
-            <h1>Pokemon</h1>
+            <NavBar />
         </div>
-    )
-}
+    );
+};
 
-export default Pokemon
+export default Pokemon;

@@ -1,9 +1,11 @@
+import NavBar from "../components/NavBar";
+
 const Items = () => {
     return (
         <div>
-            <h1>Items</h1>
+            <NavBar />
         </div>
-    )
-}
+    );
+};
 
-export default Items
+export default Items;

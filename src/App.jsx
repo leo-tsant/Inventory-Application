@@ -2,7 +2,7 @@ import AppRoutes from "./components/AppRoutes";
 
 function App() {
     return (
-        <div className="app">
+        <div className="bg-gradient-custom h-screen">
             <AppRoutes></AppRoutes>
         </div>
     );
