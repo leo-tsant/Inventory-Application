@@ -14,7 +14,7 @@ const Home = () => {
                         <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">Browse Pokemon</button>
                     </Link>
                 </div>
-                <img src={palkia} alt="Palkia" className=" w-[450px] sm:w-[400px] md:w-[500px] lg:w-[700px] " />
+                <img src={palkia} alt="Palkia" className=" w-[450px] sm:w-[400px] md:w-[500px] lg:w-[600px] " />
             </div>
         </>
     );
