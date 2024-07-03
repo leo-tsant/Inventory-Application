@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 .card {
-    @apply bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-lg p-2 shadow-md;
+    @apply bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-lg  shadow-md;
 }
 
 .spinner {
@@ -16,6 +16,10 @@
     height: 40px;
     animation: spin 1s linear infinite;
     margin: 0 auto;
+}
+
+.pokemonTypeFilter {
+    @apply cursor-pointer hover:text-yellow-400 flex justify-center items-center truncate text-[10px] sm:text-[7px] md:text-[8px] lg:text-[8px] xl:text-[10px]  text-white  font-pokemon rounded-full px-2 py-1 w-full m-auto;
 }
 
 @keyframes spin {

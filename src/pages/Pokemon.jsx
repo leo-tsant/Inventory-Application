@@ -165,60 +165,72 @@ const Pokemon = () => {
             {!isLoading && !error && (
                 <div className="container mx-auto px-4 py-8">
                     <div className="flex flex-col md:flex-row gap-16">
-                        <div className="md:w-1/4 mb-4 md:mb-0 card">
-                            <h2 className="text-lg font-semibold text-white mb-2">Filter by Type</h2>
-                            <ul>
-                                <li className="cursor-pointer text-purple-300 hover:text-yellow-400">
-                                    <button onClick={() => filteredByType("All")}>All</button>
-                                </li>
-                                <li className="cursor-pointer text-purple-300 hover:text-yellow-400">
-                                    <button onClick={() => filteredByType("grass")}>Grass</button>
-                                </li>
-                                <li className="cursor-pointer text-purple-300 hover:text-yellow-400">
-                                    <button onClick={() => filteredByType("fire")}>Fire</button>
-                                </li>
-                                <li className="cursor-pointer text-purple-300 hover:text-yellow-400">
-                                    <button onClick={() => filteredByType("water")}>Water</button>
-                                </li>
-                                <li className="cursor-pointer text-purple-300 hover:text-yellow-400">
-                                    <button onClick={() => filteredByType("bug")}>Bug</button>
-                                </li>
-                                <li className="cursor-pointer text-purple-300 hover:text-yellow-400">
-                                    <button onClick={() => filteredByType("normal")}>Normal</button>
-                                </li>
-                                <li className="cursor-pointer text-purple-300 hover:text-yellow-400">
-                                    <button onClick={() => filteredByType("poison")}>Poison</button>
-                                </li>
-                                <li className="cursor-pointer text-purple-300 hover:text-yellow-400">
-                                    <button onClick={() => filteredByType("electric")}>Electric</button>
-                                </li>
-                                <li className="cursor-pointer text-purple-300 hover:text-yellow-400">
-                                    <button onClick={() => filteredByType("ground")}>Ground</button>
-                                </li>
-                                <li className="cursor-pointer text-purple-300 hover:text-yellow-400">
-                                    <button onClick={() => filteredByType("fighting")}>Fighting</button>
-                                </li>
-                                <li className="cursor-pointer text-purple-300 hover:text-yellow-400">
-                                    <button onClick={() => filteredByType("psychic")}>Psychic</button>
-                                </li>
-                                <li className="cursor-pointer text-purple-300 hover:text-yellow-400">
-                                    <button onClick={() => filteredByType("rock")}>Rock</button>
-                                </li>
-                                <li className="cursor-pointer text-purple-300 hover:text-yellow-400">
-                                    <button onClick={() => filteredByType("ghost")}>Ghost</button>
-                                </li>
-                                <li className="cursor-pointer text-purple-300 hover:text-yellow-400">
-                                    <button onClick={() => filteredByType("ice")}>Ice</button>
-                                </li>
-                                <li className="cursor-pointer text-purple-300 hover:text-yellow-400">
-                                    <button onClick={() => filteredByType("dragon")}>Dragon</button>
-                                </li>
-                                <li className="cursor-pointer text-purple-300 hover:text-yellow-400">
-                                    <button onClick={() => filteredByType("dark")}>Dark</button>
-                                </li>
-                                <li className="cursor-pointer text-purple-300 hover:text-yellow-400">
-                                    <button onClick={() => filteredByType("steel")}>Steel</button>
-                                </li>
+                        <div className="md:w-1/4 mb-4 md:mb-0 py-4 px-2 card h-fit">
+                            <h2 className="text-lg font-semibold text-white mb-2 font-pokemon text-center">Filter by Type</h2>
+                            <ul className="flex flex-col gap-4">
+                                <button onClick={() => filteredByType("All")}>
+                                    <li className={` pokemonTypeFilter ${getTypeBackgroundColor("All")} `}>All</li>
+                                </button>
+                                <div className="flex justify-center gap-4 ">
+                                    <div className="flex flex-col gap-2">
+                                        <button onClick={() => filteredByType("grass")}>
+                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("grass")} `}>Grass</li>
+                                        </button>
+                                        <button onClick={() => filteredByType("fire")}>
+                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("fire")} `}>Fire</li>
+                                        </button>
+                                        <button onClick={() => filteredByType("water")}>
+                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("water")} `}>Water</li>
+                                        </button>
+                                        <button onClick={() => filteredByType("bug")}>
+                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("bug")} `}>Bug</li>
+                                        </button>
+                                        <button onClick={() => filteredByType("normal")}>
+                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("normal")} `}>Normal</li>
+                                        </button>
+                                        <button onClick={() => filteredByType("poison")}>
+                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("poison")} `}>Poison</li>
+                                        </button>
+                                        <button onClick={() => filteredByType("electric")}>
+                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("electric")} `}>Electric</li>
+                                        </button>
+                                        <button onClick={() => filteredByType("ground")}>
+                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("ground")} `}>Ground</li>
+                                        </button>
+                                        <button onClick={() => filteredByType("flying")}>
+                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("flying")} `}>Flying</li>
+                                        </button>
+                                    </div>
+                                    <div className="flex flex-col gap-2">
+                                        <button onClick={() => filteredByType("fighting")}>
+                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("fighting")} `}>Fighting</li>
+                                        </button>
+                                        <button onClick={() => filteredByType("psychic")}>
+                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("psychic")} `}>Psychic</li>
+                                        </button>
+                                        <button onClick={() => filteredByType("rock")}>
+                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("rock")} `}>Rock</li>
+                                        </button>
+                                        <button onClick={() => filteredByType("ghost")}>
+                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("ghost")} `}>Ghost</li>
+                                        </button>
+                                        <button onClick={() => filteredByType("ice")}>
+                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("ice")} `}>Ice</li>
+                                        </button>
+                                        <button onClick={() => filteredByType("dragon")}>
+                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("dragon")} `}>Dragon</li>
+                                        </button>
+                                        <button onClick={() => filteredByType("dark")}>
+                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("dark")} `}>Dark</li>
+                                        </button>
+                                        <button onClick={() => filteredByType("steel")}>
+                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("steel")} `}>Steel</li>
+                                        </button>
+                                        <button onClick={() => filteredByType("fairy")}>
+                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("fairy")} `}>Fairy</li>
+                                        </button>
+                                    </div>
+                                </div>
                             </ul>
                         </div>
 
@@ -248,7 +260,7 @@ const Pokemon = () => {
 
                             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4">
                                 {pokemonToDisplay.map((p) => (
-                                    <div key={p._id} className="card transition hover:scale-105 cursor-pointer">
+                                    <div key={p._id} className="card p-2 transition hover:scale-105 cursor-pointer">
                                         <img src={p.spriteUrl} alt={p.name.charAt(0).toUpperCase() + p.name.slice(1)} className="w-full" />
                                         <div className="text-[15px] sm:text-[14px] md:text-[13px] lg:text-[14px] xl:text-[16px] font-medium text-white text-center font-pokemon mb-2">
                                             {p.name.charAt(0).toUpperCase() + p.name.slice(1)}
