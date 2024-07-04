@@ -25,3 +25,12 @@ export const getPokemonPage = async (page, limit) => {
         throw new Error("Failed to fetch Pokémon data.");
     }
 };
+
+export const getPokemonByPokedexNumber = async (pokedexNumber) => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/pokemon/${pokedexNumber}`);
+        return response.data;
+    } catch (error) {
+        throw new Error("Failed to fetch Pokémon details.");
+    }
+};

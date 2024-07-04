@@ -1,6 +1,7 @@
 import NavBar from "../components/NavBar";
 import { getAllPokemon, getPokemonPage } from "../api/pokemonAPI";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
 import Pagination from "../components/Pagination";
 
@@ -153,81 +154,81 @@ const Pokemon = () => {
         <div>
             <NavBar />
             {isLoading && (
-                <div className="flex justify-center items-center h-screen">
+                <div className="flex h-screen items-center justify-center">
                     <div className="spinner"></div>
                 </div>
             )}
             {error && (
-                <div className="flex justify-center items-center h-screen">
+                <div className="flex h-screen items-center justify-center">
                     <ErrorMessage message={error} />
                 </div>
             )}
             {!isLoading && !error && (
                 <div className="container mx-auto px-4 py-8">
-                    <div className="flex flex-col md:flex-row gap-16">
-                        <div className="md:w-1/4 mb-4 md:mb-0 py-4 px-2 card h-fit">
-                            <h2 className="text-lg font-semibold text-white mb-2 font-pokemon text-center">Filter by Type</h2>
+                    <div className="flex flex-col gap-16 md:flex-row">
+                        <div className="card mb-4 h-fit px-2 py-4 md:mb-0 md:w-1/4">
+                            <h2 className="mb-2 text-center font-pokemon text-lg font-semibold text-white">Filter by Type</h2>
                             <ul className="flex flex-col gap-4">
                                 <button onClick={() => filteredByType("All")}>
-                                    <li className={` pokemonTypeFilter ${getTypeBackgroundColor("All")} `}>All</li>
+                                    <li className={`pokemonTypeFilter ${getTypeBackgroundColor("All")} `}>All</li>
                                 </button>
-                                <div className="flex justify-center gap-4 ">
+                                <div className="flex justify-center gap-4">
                                     <div className="flex flex-col gap-2">
                                         <button onClick={() => filteredByType("grass")}>
-                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("grass")} `}>Grass</li>
+                                            <li className={`pokemonTypeFilter ${getTypeBackgroundColor("grass")} `}>Grass</li>
                                         </button>
                                         <button onClick={() => filteredByType("fire")}>
-                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("fire")} `}>Fire</li>
+                                            <li className={`pokemonTypeFilter ${getTypeBackgroundColor("fire")} `}>Fire</li>
                                         </button>
                                         <button onClick={() => filteredByType("water")}>
-                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("water")} `}>Water</li>
+                                            <li className={`pokemonTypeFilter ${getTypeBackgroundColor("water")} `}>Water</li>
                                         </button>
                                         <button onClick={() => filteredByType("bug")}>
-                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("bug")} `}>Bug</li>
+                                            <li className={`pokemonTypeFilter ${getTypeBackgroundColor("bug")} `}>Bug</li>
                                         </button>
                                         <button onClick={() => filteredByType("normal")}>
-                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("normal")} `}>Normal</li>
+                                            <li className={`pokemonTypeFilter ${getTypeBackgroundColor("normal")} `}>Normal</li>
                                         </button>
                                         <button onClick={() => filteredByType("poison")}>
-                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("poison")} `}>Poison</li>
+                                            <li className={`pokemonTypeFilter ${getTypeBackgroundColor("poison")} `}>Poison</li>
                                         </button>
                                         <button onClick={() => filteredByType("electric")}>
-                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("electric")} `}>Electric</li>
+                                            <li className={`pokemonTypeFilter ${getTypeBackgroundColor("electric")} `}>Electric</li>
                                         </button>
                                         <button onClick={() => filteredByType("ground")}>
-                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("ground")} `}>Ground</li>
+                                            <li className={`pokemonTypeFilter ${getTypeBackgroundColor("ground")} `}>Ground</li>
                                         </button>
                                         <button onClick={() => filteredByType("flying")}>
-                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("flying")} `}>Flying</li>
+                                            <li className={`pokemonTypeFilter ${getTypeBackgroundColor("flying")} `}>Flying</li>
                                         </button>
                                     </div>
                                     <div className="flex flex-col gap-2">
                                         <button onClick={() => filteredByType("fighting")}>
-                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("fighting")} `}>Fighting</li>
+                                            <li className={`pokemonTypeFilter ${getTypeBackgroundColor("fighting")} `}>Fighting</li>
                                         </button>
                                         <button onClick={() => filteredByType("psychic")}>
-                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("psychic")} `}>Psychic</li>
+                                            <li className={`pokemonTypeFilter ${getTypeBackgroundColor("psychic")} `}>Psychic</li>
                                         </button>
                                         <button onClick={() => filteredByType("rock")}>
-                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("rock")} `}>Rock</li>
+                                            <li className={`pokemonTypeFilter ${getTypeBackgroundColor("rock")} `}>Rock</li>
                                         </button>
                                         <button onClick={() => filteredByType("ghost")}>
-                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("ghost")} `}>Ghost</li>
+                                            <li className={`pokemonTypeFilter ${getTypeBackgroundColor("ghost")} `}>Ghost</li>
                                         </button>
                                         <button onClick={() => filteredByType("ice")}>
-                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("ice")} `}>Ice</li>
+                                            <li className={`pokemonTypeFilter ${getTypeBackgroundColor("ice")} `}>Ice</li>
                                         </button>
                                         <button onClick={() => filteredByType("dragon")}>
-                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("dragon")} `}>Dragon</li>
+                                            <li className={`pokemonTypeFilter ${getTypeBackgroundColor("dragon")} `}>Dragon</li>
                                         </button>
                                         <button onClick={() => filteredByType("dark")}>
-                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("dark")} `}>Dark</li>
+                                            <li className={`pokemonTypeFilter ${getTypeBackgroundColor("dark")} `}>Dark</li>
                                         </button>
                                         <button onClick={() => filteredByType("steel")}>
-                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("steel")} `}>Steel</li>
+                                            <li className={`pokemonTypeFilter ${getTypeBackgroundColor("steel")} `}>Steel</li>
                                         </button>
                                         <button onClick={() => filteredByType("fairy")}>
-                                            <li className={` pokemonTypeFilter ${getTypeBackgroundColor("fairy")} `}>Fairy</li>
+                                            <li className={`pokemonTypeFilter ${getTypeBackgroundColor("fairy")} `}>Fairy</li>
                                         </button>
                                     </div>
                                 </div>
@@ -239,7 +240,7 @@ const Pokemon = () => {
                                 <input
                                     type="text"
                                     placeholder="Search Pokémon..."
-                                    className="w-2/4 px-4 py-2 rounded-2xl border-4 border-white focus:outline-none focus:border-purple-300"
+                                    className="w-2/4 rounded-2xl border-4 border-white px-4 py-2 focus:border-purple-300 focus:outline-none"
                                     value={searchTerm}
                                     onChange={handleSearchChange}
                                 />
@@ -258,24 +259,28 @@ const Pokemon = () => {
                                 </div>
                             )}
 
-                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4">
                                 {pokemonToDisplay.map((p) => (
-                                    <div key={p._id} className="card p-2 transition hover:scale-105 cursor-pointer">
+                                    <Link
+                                        to={`/pokemon/${p.pokedexNumber}`}
+                                        key={p._id}
+                                        className="card cursor-pointer p-2 transition hover:scale-105"
+                                    >
                                         <img src={p.spriteUrl} alt={p.name.charAt(0).toUpperCase() + p.name.slice(1)} className="w-full" />
-                                        <div className="text-[15px] sm:text-[14px] md:text-[13px] lg:text-[14px] xl:text-[16px] font-medium text-white text-center font-pokemon mb-2">
+                                        <div className="mb-2 text-center font-pokemon text-[15px] font-medium text-white sm:text-[14px] md:text-[13px] lg:text-[14px] xl:text-[16px]">
                                             {p.name.charAt(0).toUpperCase() + p.name.slice(1)}
                                         </div>
-                                        <div className="flex justify-center items-center  gap-2 sm:gap-1 md:gap-2 lg:gap-3 truncate text-[10px] sm:text-[7px] md:text-[8px] lg:text-[8px] xl:text-[10px]  text-white  font-pokemon">
-                                            <div className={`rounded-full  px-2 py-1 ${getTypeBackgroundColor(p.primaryType)}`}>
+                                        <div className="flex items-center justify-center gap-2 truncate font-pokemon text-[10px] text-white sm:gap-1 sm:text-[7px] md:gap-2 md:text-[8px] lg:gap-3 lg:text-[8px] xl:text-[10px]">
+                                            <div className={`rounded-full px-2 py-1 ${getTypeBackgroundColor(p.primaryType)}`}>
                                                 {p.primaryType.charAt(0).toUpperCase() + p.primaryType.slice(1)}{" "}
                                             </div>
                                             {p.secondaryType ? (
-                                                <div className={`rounded-full  px-2 py-1 ${getTypeBackgroundColor(p.secondaryType)}`}>
+                                                <div className={`rounded-full px-2 py-1 ${getTypeBackgroundColor(p.secondaryType)}`}>
                                                     {p.secondaryType.charAt(0).toUpperCase() + p.secondaryType.slice(1)}
                                                 </div>
                                             ) : null}
                                         </div>
-                                    </div>
+                                    </Link>
                                 ))}
                             </div>
 
