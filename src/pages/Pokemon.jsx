@@ -11,6 +11,7 @@ const Pokemon = () => {
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchPage, setSearchPage] = useState(1);
+    const [typeFilterPage, setTypeFilterPage] = useState(1);
     const [itemsPerPage] = useState(20);
     const [totalPages, setTotalPages] = useState(0);
     const [searchTerm, setSearchTerm] = useState("");
@@ -52,8 +53,10 @@ const Pokemon = () => {
     const paginate = (pageNumber) => {
         if (searchTerm === "" && typeFilter === "All") {
             setCurrentPage(pageNumber);
-        } else {
+        } else if (searchTerm !== "") {
             setSearchPage(pageNumber);
+        } else {
+            setTypeFilterPage(pageNumber);
         }
 
         const startIndex = (pageNumber - 1) * itemsPerPage;
@@ -91,6 +94,7 @@ const Pokemon = () => {
         setTypeFilter(type);
         setCurrentPage(1); // Reset current page
         setSearchPage(1); // Reset search page
+        setTypeFilterPage(1); // Reset type filter page
 
         let filteredPokemon = allPokemon;
 
@@ -250,7 +254,7 @@ const Pokemon = () => {
                             <div className="flex justify-end">
                                 <Pagination
                                     totalPages={totalPages}
-                                    currentPage={searchTerm === "" ? currentPage : searchPage}
+                                    currentPage={searchTerm === "" ? (typeFilter === "All" ? currentPage : typeFilterPage) : searchPage}
                                     paginate={paginate}
                                     searchTerm={searchTerm}
                                     searchPage={searchPage}
@@ -287,7 +291,7 @@ const Pokemon = () => {
                         {(pokemonToDisplay.length > 0 && (
                             <Pagination
                                 totalPages={totalPages}
-                                currentPage={searchTerm === "" ? currentPage : searchPage}
+                                currentPage={searchTerm === "" ? (typeFilter === "All" ? currentPage : typeFilterPage) : searchPage}
                                 paginate={paginate}
                                 searchTerm={searchTerm}
                                 searchPage={searchPage}
