@@ -159,37 +159,38 @@ const Items = () => {
                         {/* Cell 2,2: Items grid */}
                         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 col-start-2 col-end-3 ">
                             {itemsToDisplay.map((item) => (
-                                <div
-                                    key={item._id}
-                                    className={`card relative cursor-pointer p-2 pb-4 transition hover:scale-105 ${
-                                        item.quantity === 0 ? "bg-gray-700 opacity-50" : ""
-                                    }`}
-                                >
-                                    {item.quantity > 0 ? (
-                                        <></>
-                                    ) : (
-                                        <div className="absolute top-0 right-0 bg-red-500 text-white font-bold px-2 py-1 rounded-bl-lg rounded-tr-lg">
-                                            Out of Stock
-                                        </div>
-                                    )}
-                                    <img
-                                        src={item.spriteUrl}
-                                        alt={item.name.charAt(0).toUpperCase() + item.name.slice(1)}
-                                        className="w-32 mx-auto"
-                                    />
-                                    <div className="text-center font-pokemon text-[13px] font-medium text-white sm:text-[12px] md:text-[11px] lg:text-[13px] xl:text-[14px]">
-                                        {item.name.includes("-") ? (
-                                            <span>
-                                                {item.name
-                                                    .split("-")
-                                                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                                                    .join(" ")}
-                                            </span>
+                                <Link key={item._id} to={`/items/${item.name}`}>
+                                    <div
+                                        className={`card relative cursor-pointer p-2 pb-4 transition hover:scale-105 ${
+                                            item.quantity === 0 ? "bg-gray-700 opacity-50" : ""
+                                        }`}
+                                    >
+                                        {item.quantity > 0 ? (
+                                            <></>
                                         ) : (
-                                            <span>{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</span>
+                                            <div className="absolute top-0 right-0 bg-red-500 text-white font-bold px-2 py-1 rounded-bl-lg rounded-tr-lg">
+                                                Out of Stock
+                                            </div>
                                         )}
+                                        <img
+                                            src={item.spriteUrl}
+                                            alt={item.name.charAt(0).toUpperCase() + item.name.slice(1)}
+                                            className="w-32 mx-auto"
+                                        />
+                                        <div className="text-center font-pokemon text-[13px] font-medium text-white sm:text-[12px] md:text-[11px] lg:text-[13px] xl:text-[14px]">
+                                            {item.name.includes("-") ? (
+                                                <span>
+                                                    {item.name
+                                                        .split("-")
+                                                        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                                                        .join(" ")}
+                                                </span>
+                                            ) : (
+                                                <span>{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</span>
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
+                                </Link>
                             ))}
                         </div>
                         {/* Pagination controls */}
