@@ -1,14 +1,17 @@
 import NavBar from "../components/NavBar";
-import { getAllPokemon, getPokemonPage } from "../api/pokemonAPI";
-import { useState, useEffect } from "react";
+import { getPokemonPage, addNewPokemon } from "../api/pokemonAPI";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
 import Pagination from "../components/Pagination";
+import { PokemonContext } from "../components/PokemonContext";
 
 const Pokemon = () => {
-    const [allPokemon, setAllPokemon] = useState([]);
+    const { pokemonData, setShouldRefetch } = useContext(PokemonContext);
+
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [addPokemonError, setAddPokemonError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchPage, setSearchPage] = useState(1);
     const [typeFilterPage, setTypeFilterPage] = useState(1);
@@ -17,13 +20,16 @@ const Pokemon = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [pokemonToDisplay, setPokemonToDisplay] = useState([]);
     const [typeFilter, setTypeFilter] = useState("All");
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [newPokemonName, setNewPokemonName] = useState("");
 
     useEffect(() => {
         const fetchPokemonData = async () => {
             setIsLoading(true);
             try {
                 const { data, total } = await getPokemonPage(currentPage, itemsPerPage);
-                setPokemonToDisplay(data);
+                const sortedData = data.sort((a, b) => a.pokedexNumber - b.pokedexNumber);
+                setPokemonToDisplay(sortedData);
                 setTotalPages(Math.ceil(total / itemsPerPage));
             } catch (error) {
                 console.error("Error fetching Pokémon:", error);
@@ -36,19 +42,6 @@ const Pokemon = () => {
         fetchPokemonData();
     }, [currentPage, itemsPerPage]);
 
-    useEffect(() => {
-        const fetchAllPokemon = async () => {
-            try {
-                const data = await getAllPokemon();
-                setAllPokemon(data);
-            } catch (error) {
-                console.error("Error fetching Pokémon:", error);
-                setError("Failed to fetch Pokémon data.");
-            }
-        };
-        fetchAllPokemon();
-    }, []);
-
     // Handle page change
     const paginate = (pageNumber) => {
         if (searchTerm === "" && typeFilter === "All") {
@@ -60,7 +53,7 @@ const Pokemon = () => {
         }
 
         const startIndex = (pageNumber - 1) * itemsPerPage;
-        let filteredPokemon = allPokemon;
+        let filteredPokemon = pokemonData;
 
         if (searchTerm) {
             filteredPokemon = filteredPokemon.filter((p) => p.name.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -80,7 +73,7 @@ const Pokemon = () => {
         setSearchTerm(term);
         setSearchPage(1); // Reset search page to 1 when search term changes
 
-        let filteredPokemonBySearch = allPokemon.filter((p) => p.name.toLowerCase().includes(term.toLowerCase()));
+        let filteredPokemonBySearch = pokemonData.filter((p) => p.name.toLowerCase().includes(term.toLowerCase()));
 
         if (typeFilter !== "All") {
             filteredPokemonBySearch = filteredPokemonBySearch.filter((p) => p.primaryType === typeFilter || p.secondaryType === typeFilter);
@@ -96,10 +89,10 @@ const Pokemon = () => {
         setSearchPage(1); // Reset search page
         setTypeFilterPage(1); // Reset type filter page
 
-        let filteredPokemon = allPokemon;
+        let filteredPokemon = pokemonData;
 
         if (type !== "All") {
-            filteredPokemon = allPokemon.filter((p) => p.primaryType === type || p.secondaryType === type);
+            filteredPokemon = pokemonData.filter((p) => p.primaryType === type || p.secondaryType === type);
         }
 
         if (searchTerm) {
@@ -142,7 +135,7 @@ const Pokemon = () => {
             case "dragon":
                 return "bg-blue-900";
             case "dark":
-                return "bg-gray-900";
+                return "bg-gray-800";
             case "steel":
                 return "bg-gray-400";
             case "flying":
@@ -152,6 +145,32 @@ const Pokemon = () => {
             default:
                 return "bg-gray-500"; // Default color
         }
+    };
+
+    const handleAddClick = () => {
+        setIsAddModalOpen(true);
+    };
+
+    const handleNameChange = (event) => {
+        setNewPokemonName(event.target.value);
+    };
+
+    const handleAddPokemon = async () => {
+        try {
+            // 1. Fetch Pokémon details from PokéAPI using the name (you'll need to implement this function)
+            await addNewPokemon(newPokemonName);
+        } catch (error) {
+            setAddPokemonError(error.message);
+        } finally {
+            setIsAddModalOpen(false); // Close the modal after adding
+            setNewPokemonName(""); // Clear the input field
+            setShouldRefetch((prev) => !prev);
+        }
+    };
+
+    const handleCancel = () => {
+        setIsAddModalOpen(false);
+        setNewPokemonName("");
     };
 
     return (
@@ -167,9 +186,15 @@ const Pokemon = () => {
                     <ErrorMessage message={error} />
                 </div>
             )}
+            {addPokemonError &&
+                // Show error message for 2 seconds
+                setTimeout(() => {
+                    setAddPokemonError(null);
+                }, 3000) && <ErrorMessage message={addPokemonError} />}
+
             {!isLoading && !error && (
                 <div className="container mx-auto px-4 py-8 grid grid-cols-[1fr_3fr] gap-8">
-                    <div className="mb-2 flex justify-center col-start-2 col-end-3">
+                    <div className="mb-2 flex justify-end gap-28 col-start-2 col-end-3">
                         <input
                             type="text"
                             placeholder="Search Pokémon..."
@@ -177,6 +202,45 @@ const Pokemon = () => {
                             value={searchTerm}
                             onChange={handleSearchChange}
                         />
+                        <button
+                            onClick={handleAddClick}
+                            className="bg-green-700 p-3 w-fit font-pokemon text-white rounded-full hover:bg-green-800 border-green-500 border-2 hover:border-green-800"
+                        >
+                            + Add New
+                        </button>
+
+                        {/* Modal */}
+                        {isAddModalOpen && (
+                            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                                <div className="bg-white rounded-lg p-8 w-96">
+                                    <h2 className="text-2xl font-semibold mb-4">Add New Pokémon</h2>
+                                    <div className="mb-4">
+                                        <label htmlFor="pokemonName" className="block text-gray-700 text-sm font-bold mb-2">
+                                            Pokémon Name:
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="pokemonName"
+                                            value={newPokemonName}
+                                            onChange={handleNameChange}
+                                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                            placeholder="e.g. Pikachu"
+                                        />
+                                    </div>
+                                    <div className="flex justify-end">
+                                        <button onClick={handleCancel} className="mr-2 px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg">
+                                            Cancel
+                                        </button>
+                                        <button
+                                            onClick={handleAddPokemon}
+                                            className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg"
+                                        >
+                                            Add Pokémon
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     <div className="card mb-4 mt-11 h-fit min-w-full px-2 py-4 md:mb-0 md:w-1/4 col-start-1 col-end-2">
@@ -247,7 +311,6 @@ const Pokemon = () => {
                             </div>
                         </ul>
                     </div>
-
                     <div className="md:w-3/4 min-w-full col-start-2 col-end-3 flex flex-col justify-self-center">
                         {/* Pagination controls */}
                         {pokemonToDisplay.length > 0 && (

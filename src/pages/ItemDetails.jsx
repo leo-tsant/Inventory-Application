@@ -110,14 +110,15 @@ const ItemDetails = () => {
                     </div>
                     {/* Modal */}
                     {isModalOpen && (
-                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 font-nunito">
                             <div className="bg-white rounded-lg p-8">
-                                <h2 className="text-2xl font-semibold mb-4">Edit Item Quantity</h2>
+                                <h2 className="text-4xl font-semibold mb-4">Edit Item Quantity</h2>
                                 <input
                                     type="number"
                                     value={updatedQuantity}
                                     onChange={handleQuantityChange}
                                     className="border rounded p-2 mb-4 w-full"
+                                    min="0"
                                 />
                                 <div className="flex justify-end">
                                     <button onClick={handleCancel} className="mr-2 px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">

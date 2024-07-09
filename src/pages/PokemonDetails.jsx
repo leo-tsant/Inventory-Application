@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getPokemonByPokedexNumber } from "../api/pokemonAPI";
 import NavBar from "../components/NavBar";
 import ErrorMessage from "../components/ErrorMessage";
+import { PokemonContext } from "../components/PokemonContext";
 
 const PokemonDetails = () => {
+    const { pokedexNumbers } = useContext(PokemonContext);
+
     const { pokedexNumber } = useParams();
     const [pokemon, setPokemon] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -15,6 +18,7 @@ const PokemonDetails = () => {
             setIsLoading(true);
             try {
                 const data = await getPokemonByPokedexNumber(pokedexNumber);
+
                 setPokemon(data);
             } catch (error) {
                 console.error("Error fetching Pokémon details:", error);
@@ -103,7 +107,7 @@ const PokemonDetails = () => {
             case "dragon":
                 return "bg-blue-900";
             case "dark":
-                return "bg-gray-900";
+                return "bg-gray-800";
             case "steel":
                 return "bg-gray-400";
             case "flying":
@@ -115,6 +119,13 @@ const PokemonDetails = () => {
         }
     };
 
+    // Find the index of the current Pokemon's pokedexNumber in pokedexNumbers array
+    const currentIndex = pokedexNumbers.indexOf(pokemon.pokedexNumber);
+
+    // Determine previous and next Pokemon
+    const previousPokemon = currentIndex > 0 ? pokedexNumbers[currentIndex - 1] : null;
+    const nextPokemon = currentIndex < pokedexNumbers.length - 1 ? pokedexNumbers[currentIndex + 1] : null;
+
     return (
         <div className="min-h-screen flex flex-col font-pokemon">
             <NavBar />
@@ -124,13 +135,13 @@ const PokemonDetails = () => {
                         Back
                     </Link>
                     <div className="flex gap-10">
-                        {pokemon.pokedexNumber > 1 && (
-                            <Link to={`/pokemon/${pokemon.pokedexNumber - 1}`} className="hover:text-yellow-400">
+                        {previousPokemon && (
+                            <Link to={`/pokemon/${previousPokemon}`} className="hover:text-yellow-400">
                                 Previous
                             </Link>
                         )}
-                        {pokemon.pokedexNumber < 151 && (
-                            <Link to={`/pokemon/${pokemon.pokedexNumber + 1}`} className="hover:text-yellow-400">
+                        {nextPokemon && (
+                            <Link to={`/pokemon/${nextPokemon}`} className="hover:text-yellow-400">
                                 Next
                             </Link>
                         )}
