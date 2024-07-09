@@ -1,7 +1,7 @@
 import NavBar from "../components/NavBar";
 import ErrorMessage from "../components/ErrorMessage";
 import Pagination from "../components/Pagination";
-import { getItemPage } from "../api/itemsAPI";
+import { getAllItems, getItemPage } from "../api/itemsAPI";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -22,9 +22,9 @@ const Items = () => {
         const fetchItems = async () => {
             setIsLoading(true);
             try {
-                const { data, total, allItems } = await getItemPage(currentPage, itemsPerPage);
+                const { data, total } = await getItemPage(currentPage, itemsPerPage);
+
                 setItemsToDisplay(data);
-                setAllItems(allItems);
                 setTotalPages(Math.ceil(total / itemsPerPage));
             } catch (error) {
                 console.error("Error fetching item data:", error);
@@ -36,6 +36,19 @@ const Items = () => {
 
         fetchItems();
     }, [currentPage, itemsPerPage]);
+
+    useEffect(() => {
+        const fetchAllItems = async () => {
+            try {
+                const data = await getAllItems();
+                setAllItems(data);
+            } catch (error) {
+                console.error("Error fetching items:", error);
+                setError("Failed to fetch item data.");
+            }
+        };
+        fetchAllItems();
+    }, []);
 
     const paginate = (pageNumber) => {
         if (searchTerm === "" && categoryFilter === "All") {
@@ -125,13 +138,13 @@ const Items = () => {
                                 <button onClick={() => filterByCategory("pokeball")}>
                                     <li className="pokemonTypeFilter bg-purple-700">Poké Balls</li>
                                 </button>
-                                <button onClick={() => filterByCategory("battleItem")}>
+                                <button onClick={() => filterByCategory("battle")}>
                                     <li className="pokemonTypeFilter bg-red-700">Battle Items</li>
                                 </button>
-                                <button onClick={() => filterByCategory("healingItem")}>
+                                <button onClick={() => filterByCategory("healing")}>
                                     <li className="pokemonTypeFilter bg-blue-500">Healing Items</li>
                                 </button>
-                                <button onClick={() => filterByCategory("heldItem")}>
+                                <button onClick={() => filterByCategory("held")}>
                                     <li className="pokemonTypeFilter bg-indigo-500">Held Items</li>
                                 </button>
                                 <button onClick={() => filterByCategory("berry")}>

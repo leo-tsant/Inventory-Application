@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getItemByName } from "../api/itemsAPI";
+import { getItemByName, updateItem } from "../api/itemsAPI";
 import NavBar from "../components/NavBar";
 import ErrorMessage from "../components/ErrorMessage";
 
@@ -9,6 +9,8 @@ const ItemDetails = () => {
     const [item, setItem] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [updatedQuantity, setUpdatedQuantity] = useState(null);
 
     useEffect(() => {
         const fetchItemDetails = async () => {
@@ -38,6 +40,31 @@ const ItemDetails = () => {
     if (!item) {
         return <ErrorMessage message="Item not Found" />;
     }
+
+    const handleEditClick = () => {
+        setUpdatedQuantity(item.quantity); // Set initial quantity in the modal
+        setIsModalOpen(true);
+    };
+
+    const handleQuantityChange = (event) => {
+        setUpdatedQuantity(parseInt(event.target.value, 10) || 0); // Update quantity, ensure it's a number
+    };
+
+    const handleUpdateItem = async () => {
+        try {
+            const response = await updateItem(item.name, updatedQuantity);
+            setItem(response); // Update item state with the updated data
+        } catch (error) {
+            // Handle error if necessary
+            console.error("Error updating item:", error);
+        } finally {
+            setIsModalOpen(false); // Close the modal after updating
+        }
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
 
     return (
         <div className="min-h-screen flex flex-col font-pokemon">
@@ -74,10 +101,38 @@ const ItemDetails = () => {
                             <div className="text-gray-500 text-sm">Quantity: {item.quantity}</div>
                         </div>
                         <div className="text-gray-200 text-base">{item.effect ? item.effect : item.description}</div>
-                        <button className="w-fit bg-green-500 py-3 pl-4 pr-3 rounded-full text-gray-200 text-center hover:bg-green-700">
+                        <button
+                            onClick={handleEditClick}
+                            className="w-fit bg-green-500 py-3 pl-4 pr-3 rounded-full text-gray-200 text-center hover:bg-green-700"
+                        >
                             Edit Item
                         </button>
                     </div>
+                    {/* Modal */}
+                    {isModalOpen && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                            <div className="bg-white rounded-lg p-8">
+                                <h2 className="text-2xl font-semibold mb-4">Edit Item Quantity</h2>
+                                <input
+                                    type="number"
+                                    value={updatedQuantity}
+                                    onChange={handleQuantityChange}
+                                    className="border rounded p-2 mb-4 w-full"
+                                />
+                                <div className="flex justify-end">
+                                    <button onClick={handleCancel} className="mr-2 px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">
+                                        Cancel
+                                    </button>
+                                    <button
+                                        onClick={handleUpdateItem}
+                                        className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
+                                    >
+                                        Update
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
