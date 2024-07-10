@@ -1,7 +1,7 @@
 import NavBar from "../components/NavBar";
 import { getPokemonPage, addNewPokemon } from "../api/pokemonAPI";
 import { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
 import Pagination from "../components/Pagination";
 import { PokemonContext } from "../components/PokemonContext";
@@ -22,6 +22,8 @@ const Pokemon = () => {
     const [typeFilter, setTypeFilter] = useState("All");
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [newPokemonName, setNewPokemonName] = useState("");
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchPokemonData = async () => {
@@ -157,8 +159,8 @@ const Pokemon = () => {
 
     const handleAddPokemon = async () => {
         try {
-            // 1. Fetch Pokémon details from PokéAPI using the name (you'll need to implement this function)
-            await addNewPokemon(newPokemonName);
+            const addedPokemon = await addNewPokemon(newPokemonName);
+            navigate(`/pokemon/${addedPokemon.pokedexNumber}`);
         } catch (error) {
             setAddPokemonError(error.message);
         } finally {

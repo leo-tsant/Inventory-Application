@@ -54,3 +54,21 @@ export const addNewPokemon = async (pokemonName) => {
         }
     }
 };
+
+export const deletePokemon = async (pokedexNumber) => {
+    try {
+        const response = await axios.delete(`${API_URL}/pokemon/delete/${pokedexNumber}`);
+        return response.data; // Assuming backend returns the deleted Pokémon instance
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            const { response } = error;
+            if (response && response.status === 404) {
+                throw new Error("Pokémon not found");
+            } else {
+                throw new Error("Failed to delete Pokémon");
+            }
+        } else {
+            throw error;
+        }
+    }
+};
